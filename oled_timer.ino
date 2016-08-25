@@ -190,6 +190,11 @@ void loop(void)
 	{
 		prev_up_button_state = 1;
 		last_up_key_press = millis();
+		if ((time == 0) && (timer_state == 1))
+		{
+			set_interrupt(0);
+			timer_state = 0;
+		}
 		time += delta_time;
 	}
 	else if ((up_state == LOW) && (prev_up_button_state == 1))
@@ -235,6 +240,8 @@ void loop(void)
 		prev_down_button_state = 0;
 	}
 
+	time = set_legal_time(time);
+
 	//handle start/stop button
 	if ((start_state == LOW) && (prev_start_button_state==0))
 	{
@@ -260,7 +267,6 @@ void loop(void)
 		prev_start_button_state = 0;
 	}
 	
-	time = set_legal_time(time);
 
 	// picture loop
 	u8g.firstPage();
